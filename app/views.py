@@ -5,9 +5,13 @@ Werkzeug Documentation:  https://werkzeug.palletsprojects.com/
 This file contains the routes for your application.
 """
 
+import os
 from app import app
-from flask import render_template, request, redirect, url_for
-
+from flask import render_template, request, redirect, send_from_directory, url_for, flash, session, abort
+from flask_login import login_user, logout_user, current_user, login_required
+from werkzeug.utils import secure_filename
+from werkzeug.security import check_password_hash
+from app.forms import AddForm
 
 ###
 # Routing for your application.
@@ -24,7 +28,15 @@ def about():
     """Render the website's about page."""
     return render_template('about.html', name="Mary Jane")
 
-
+@app.route('/new_property/', methods=['POST', 'GET'])
+def newp():
+    addform = AddForm()
+    if request.method == 'POST':
+    #validate on submit
+        if addform.validate_on_submit():
+            pass
+    """Render the website's about page."""
+    return render_template('new_property.html', form=addform)
 ###
 # The functions below should be applicable to all Flask apps.
 ###
